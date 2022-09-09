@@ -118,6 +118,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        imageView.setImageResource(list.consultar(0).getAtual());
+        for (int k = 1; k < list.size(); k++) {
+            imageView.setImageResource(list.consultar(k).getAtual());//fazer troca da imagem atual pela proxima
+            break;
+        }
     }
 }
