@@ -85,4 +85,34 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+    public void verificarAreaDoClique(Lista<AreaClicavel> areasClicaveis, double x, double y) {
+        //receber uma lista, x do clique e y do clique
+        //verificar cada índice da lista
+        for (int k = 1; k < areasClicaveis.size(); k++) {
+            if (areasClicaveis.consultar(0).getAtual() == areasClicaveis.consultar(k).getAtual()) {
+                if (areasClicaveis.consultar(k).getX1() < x && x < areasClicaveis.consultar(k).getX2()
+                        && areasClicaveis.consultar(k).getY1() < y && y < areasClicaveis.consultar(k).getY2()) { //verificando area que foi clicada
+                    imageView.setImageResource(areasClicaveis.consultar(k).getProximo());//fazer troca da imagem atual pela proxima
+                    break;
+                }
+            }
+            break;
+        }
+
+        for (int i = 1; i < areasClicaveis.size(); i++) { //percorrendo a lista
+            if (areasClicaveis.consultar(i).getX1() < x && x < areasClicaveis.consultar(i).getX2()
+                    && areasClicaveis.consultar(i).getY1() < y && y < areasClicaveis.consultar(i).getY2()) { //verificando area que foi clicada
+                imageView.setImageResource(areasClicaveis.consultar(i).getProximo()); //fazer troca da imagem atual pela proxima
+                break;
+            }
+            for (int j = i + 1; j < areasClicaveis.size() - 1; j++) {
+                if (areasClicaveis.consultar(i).getProximo() == areasClicaveis.consultar(j).getAtual()) {
+                    i = j - 1;
+                    break;
+                }
+                break;
+            }
+        }
+    }
 }
