@@ -18,19 +18,19 @@ import java.io.InputStreamReader;
 public class MainActivity extends AppCompatActivity {
 
     public ImageView imageView;
+    public Lista<AreaClicavel> list = new Lista(); //lista para guardar as linhas (areas clicaveis) do arquivo
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        imageView = findViewById(R.id.imageView);
+        imageView = findViewById(R.id.image);
 
-        String arquivo = "hidreletrica.txt"; //passando nome do arquivo, que está no assets, que deseja fazer a navegação
+        String arquivo = "solar.txt"; //passando nome do arquivo, que está no assets, que deseja fazer a navegação
 
         AssetManager assetManager = getResources().getAssets();
         InputStream inputStream;
-        Lista<AreaClicavel> list = new Lista(); //lista para guardar as linhas (areas clicaveis) do arquivo
 
         try {
             inputStream = assetManager.open(arquivo);
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                         //Aplicar a razão às coordenadas
                         int bitmapX = (int) (event.getX() * ratioX);
                         int bitmapY = (int) (event.getY() * ratioY);
-                        verificarAreaDoClique(list, bitmapX, bitmapY);
+                        verificarAreaDoClique(bitmapX, bitmapY);
 
                     }
                     return true;
@@ -86,33 +86,38 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void verificarAreaDoClique(Lista<AreaClicavel> areasClicaveis, double x, double y) {
+    public void verificarAreaDoClique(double x, double y) {
         //receber uma lista, x do clique e y do clique
         //verificar cada índice da lista
-        for (int k = 1; k < areasClicaveis.size(); k++) {
-            if (areasClicaveis.consultar(0).getAtual() == areasClicaveis.consultar(k).getAtual()) {
-                if (areasClicaveis.consultar(k).getX1() < x && x < areasClicaveis.consultar(k).getX2()
-                        && areasClicaveis.consultar(k).getY1() < y && y < areasClicaveis.consultar(k).getY2()) { //verificando area que foi clicada
-                    imageView.setImageResource(areasClicaveis.consultar(k).getProximo());//fazer troca da imagem atual pela proxima
+        for (int k = 1; k < list.size(); k++) {
+            if (list.consultar(0).getAtual() == list.consultar(k).getAtual()) {
+                if (list.consultar(k).getX1() < x && x < list.consultar(k).getX2()
+                        && list.consultar(k).getY1() < y && y < list.consultar(k).getY2()) { //verificando area que foi clicada
+                    imageView.setImageResource(list.consultar(k).getProximo());//fazer troca da imagem atual pela proxima
                     break;
                 }
             }
             break;
         }
 
-        for (int i = 1; i < areasClicaveis.size(); i++) { //percorrendo a lista
-            if (areasClicaveis.consultar(i).getX1() < x && x < areasClicaveis.consultar(i).getX2()
-                    && areasClicaveis.consultar(i).getY1() < y && y < areasClicaveis.consultar(i).getY2()) { //verificando area que foi clicada
-                imageView.setImageResource(areasClicaveis.consultar(i).getProximo()); //fazer troca da imagem atual pela proxima
+        for (int i = 1; i < list.size(); i++) { //percorrendo a lista
+            if (list.consultar(i).getX1() < x && x < list.consultar(i).getX2()
+                    && list.consultar(i).getY1() < y && y < list.consultar(i).getY2()) { //verificando area que foi clicada
+                imageView.setImageResource(list.consultar(i).getProximo()); //fazer troca da imagem atual pela proxima
                 break;
             }
-            for (int j = i + 1; j < areasClicaveis.size() - 1; j++) {
-                if (areasClicaveis.consultar(i).getProximo() == areasClicaveis.consultar(j).getAtual()) {
+            for (int j = i + 1; j < list.size() - 1; j++) {
+                if (list.consultar(i).getProximo() == list.consultar(j).getAtual()) {
                     i = j - 1;
                     break;
                 }
                 break;
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        imageView.setImageResource(list.consultar(0).getAtual());
     }
 }

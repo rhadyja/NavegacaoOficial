@@ -1,3 +1,4 @@
+painelsolar,0,0,0,0,0
 painelsolar,68,54,157,202,caixajuncao
 painelsolar,158,84,280,434,backsheet
 painelsolar,291,59,396,438,encapsulamento
