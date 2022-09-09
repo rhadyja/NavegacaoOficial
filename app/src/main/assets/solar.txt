@@ -1,0 +1,7 @@
+painelsolar,68,54,157,202,caixajuncao
+painelsolar,158,84,280,434,backsheet
+painelsolar,291,59,396,438,encapsulamento
+painelsolar,401,63,509,431,celulasolar
+painelsolar,521,70,628,427,encapsulamento
+painelsolar,635,75,749,430,vidrosolar
+painelsolar,753,60,902,441,moldura
